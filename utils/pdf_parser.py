@@ -24,7 +24,7 @@ def parse_all_resumes(folder_path):
                     points = split_into_bullets(text)
                     bullet_points.extend(points)
             except Exception as e:
-                print(f"❌ Failed to parse {fname}: {e}")
+                print(f"Failed to parse {fname}: {e}")
     
     return bullet_points
 
