@@ -1,7 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from bs4 import BeautifulSoup
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
