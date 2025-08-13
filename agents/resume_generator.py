@@ -29,7 +29,7 @@ You are a resume optimization assistant. Given the job description below and a l
 Return a full resume in professional markdown or plain text with headings (e.g., Summary, Skills, Experience, Education).
 """
 
-    print("🤖 Using GPT-5 Mini to generate resume...")
+    print("Using GPT-5 Mini to generate resume...")
     response = client.chat.completions.create(
         model="gpt-5-mini",
         messages=[{"role": "user", "content": prompt}],

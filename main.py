@@ -18,10 +18,10 @@ if __name__ == "__main__":
     custom_path = input(f"\nEnter full path to your resume folder, or press Enter to use default ({DEFAULT_RESUME_DIR}): ").strip()
     resume_path = custom_path if custom_path else DEFAULT_RESUME_DIR
 
-    print(f"\n📂 Loading resume bullet points from: {resume_path}")
+    print(f"\n Loading resume bullet points from: {resume_path}")
     bullet_points = parse_all_resumes(resume_path)
 
-    print("\n🧠 Generating tailored resume using GPT-5 mini...")
+    print("\n Generating tailored resume using GPT-5 mini...")
     tailored_resume = generate_tailored_resume(job_description, bullet_points)
 
     company = input("Company name for output filename: ").strip()
@@ -32,4 +32,4 @@ if __name__ == "__main__":
     os.makedirs(RESUME_OUTPUT_DIR, exist_ok=True)
     save_as_docx(tailored_resume, output_path)
 
-    print(f"\n✅ Resume saved to: {output_path}")
+    print(f"\n Resume saved to: {output_path}")

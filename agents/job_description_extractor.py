@@ -24,14 +24,14 @@ def extract_job_description_from_url(url: str) -> str:
     service = Service(executable_path="C:/tools/chromedriver-win64/chromedriver.exe")
     driver = webdriver.Chrome(service=service, options=options)
 
-    print("🕸️ Fetching webpage...")
+    print("Fetching webpage...")
     driver.get(url)
     time.sleep(5)  # wait for page to load
 
     page_html = driver.page_source
     driver.quit()
 
-    print("🤖 Using GPT-5 to extract job description...")
+    print("Using GPT-5 to extract job description...")
     return extract_description_with_ai(page_html)
 
 
