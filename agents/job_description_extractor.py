@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -21,8 +22,8 @@ def extract_job_description_from_url(url: str) -> str:
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Update this path to where chromedriver.exe is located
-    service = Service(executable_path="C:/tools/chromedriver-win64/chromedriver.exe")
+    # Auto-install and manage the correct ChromeDriver version
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
     print("Fetching webpage...")
@@ -59,4 +60,3 @@ def extract_description_with_ai(page_text: str) -> str:
             "Model returned empty job description. Check the URL and API settings."
         )
     return content
-
