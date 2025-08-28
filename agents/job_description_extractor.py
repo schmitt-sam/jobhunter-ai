@@ -10,8 +10,9 @@ import time
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+
 def extract_job_description_from_url(url: str) -> str:
-    print("🌐 Launching headless browser...")
+    print("Launching headless browser...")
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
@@ -31,7 +32,7 @@ def extract_job_description_from_url(url: str) -> str:
     page_html = driver.page_source
     driver.quit()
 
-    print("Using GPT-5 to extract job description...")
+    print("Extracting job description with gpt-4o-mini...")
     return extract_description_with_ai(page_html)
 
 
@@ -43,13 +44,19 @@ def extract_description_with_ai(page_text: str) -> str:
     )
 
     response = client.chat.completions.create(
-        model="gpt-5-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": system_msg},
-            {"role": "user", "content": page_text}
+            {"role": "user", "content": page_text},
         ],
-        max_completion_tokens=1000,
+        max_tokens=1000,
         temperature=1,
     )
 
-    return response.choices[0].message.content.strip()
+    content = (response.choices[0].message.content or "").strip()
+    if not content:
+        raise RuntimeError(
+            "Model returned empty job description. Check the URL and API settings."
+        )
+    return content
+

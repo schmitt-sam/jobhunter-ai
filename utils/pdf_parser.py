@@ -1,13 +1,14 @@
 import os
 import fitz  # PyMuPDF
 
+
 def parse_all_resumes(folder_path):
     """
     Parses all PDFs in the given folder and extracts bullet points from each.
-    
+
     Args:
         folder_path (str): Path to the folder containing resume PDFs.
-    
+
     Returns:
         list of str: A flat list of all bullet points extracted from all resumes.
     """
@@ -25,16 +26,17 @@ def parse_all_resumes(folder_path):
                     bullet_points.extend(points)
             except Exception as e:
                 print(f"Failed to parse {fname}: {e}")
-    
+
     return bullet_points
+
 
 def split_into_bullets(text):
     """
     Splits text into bullet-point-like segments.
-    
+
     Args:
         text (str): Full resume text.
-    
+
     Returns:
         list of str: List of bullet-like statements.
     """
@@ -45,9 +47,16 @@ def split_into_bullets(text):
         line = line.strip()
         if not line:
             continue
-        if line.startswith("•") or line.startswith("-") or line.startswith("*"):
+        # Handle common bullet characters from PDFs
+        if (
+            line.startswith("•")
+            or line.startswith("·")
+            or line.startswith("-")
+            or line.startswith("*")
+        ):
             bullets.append(line[1:].strip())
         elif len(line.split()) > 5:  # filter out headers/footers
             bullets.append(line)
 
     return bullets
+

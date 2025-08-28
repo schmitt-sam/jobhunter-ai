@@ -29,16 +29,28 @@ You are a resume optimization assistant. Given the job description below and a l
 Return a full resume in professional markdown or plain text with headings (e.g., Summary, Skills, Experience, Education).
 """
 
-    print("Using GPT-5 Mini to generate resume...")
+    # Minimal input sanity logs
+    print(f"Job description length: {len(job_description.strip())}")
+    print(f"Bullet points count: {len(bullet_points)}")
+
+    print("Generating resume with gpt-4o-mini...")
     response = client.chat.completions.create(
-        model="gpt-5-mini",
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
         temperature=1,
-        max_completion_tokens=1500,
+        max_tokens=1500,
     )
-    return response.choices[0].message.content.strip()
+    content = (response.choices[0].message.content or "").strip()
+    if not content:
+        raise RuntimeError(
+            "Empty resume from model. Check API key, model name, and inputs."
+        )
+    return content
 
 def save_as_docx(resume_text: str, output_path: str):
+    if not resume_text or not resume_text.strip():
+        raise ValueError("Refusing to save empty resume text to DOCX.")
+
     doc = Document()
     for line in resume_text.splitlines():
         if line.strip().startswith("##") or line.strip().endswith(":"):
